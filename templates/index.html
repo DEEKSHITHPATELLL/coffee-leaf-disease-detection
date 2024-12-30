@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2ecc71;
-            --secondary-color: #27ae60;
-            --background-color: #f8f9fa;
-            --text-color: #2c3e50;
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #8BC34A;
+            --background-color: #F1F8E9;
+            --text-color: #33691E;
+            --card-bg: #ffffff;
         }
 
         body {
@@ -22,146 +24,313 @@
         }
 
         .navbar {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: var(--primary-color);
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
-            color: var(--primary-color) !important;
-            font-weight: bold;
-            font-size: 1.5rem;
+            color: white !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .hero-section {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%),
+                        url('https://images.unsplash.com/photo-1592982537447-6f2a6e0a3023?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1080');
+            background-blend-mode: overlay;
+            background-size: cover;
             color: white;
-            padding: 4rem 0;
-            margin-bottom: 2rem;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section .lead {
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         .upload-container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
+            border: 2px solid #E8F5E9;
         }
 
         .drop-zone {
-            border: 2px dashed var(--primary-color);
-            border-radius: 10px;
-            padding: 2rem;
+            border: 3px dashed var(--accent-color);
+            border-radius: 15px;
+            padding: 3rem 2rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            background: #F9FBE7;
         }
 
         .drop-zone:hover {
-            background-color: rgba(46, 204, 113, 0.1);
+            background: #F1F8E9;
+            transform: translateY(-2px);
         }
 
         .drop-zone.dragover {
-            background-color: rgba(46, 204, 113, 0.2);
-            border-color: var(--secondary-color);
+            background: #E8F5E9;
+            border-color: var(--primary-color);
+            transform: scale(1.02);
         }
 
-        .preview-container {
-            margin-top: 2rem;
-            text-align: center;
+        .drop-zone i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
 
-        #image-preview {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 1rem;
-            display: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .drop-zone h4 {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 0.5rem 2rem;
+            background: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2rem;
             font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            background: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
         .result-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: none;
-            margin-top: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border: 2px solid #E8F5E9;
         }
 
         .result-header {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-header h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2rem;
         }
 
         .confidence-badge {
-            background-color: var(--primary-color);
+            background: var(--accent-color);
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-left: 1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .description-box {
-            background-color: #f8f9fa;
-            border-radius: 10px;
+            background: #F1F8E9;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            border: 1px solid #E8F5E9;
+        }
+
+        .description-box h5 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .fertilizer-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            background: #FAFAFA;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .fertilizer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fertilizer-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #E8F5E9;
+        }
+
+        .fertilizer-content {
             padding: 1.5rem;
+        }
+
+        .fertilizer-card .card-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .fertilizer-info {
+            background: #F1F8E9;
+            padding: 1rem;
+            border-radius: 10px;
             margin-top: 1rem;
         }
 
-        .loading-spinner {
-            display: none;
-            margin: 2rem auto;
+        .result-image {
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 3px solid #E8F5E9;
+            margin: 1rem auto;
+            display: block;
         }
 
-        .result-image {
-            max-width: 100%;
-            height: auto;
+        .loading-spinner {
+            margin: 3rem auto;
+        }
+
+        .loading-spinner .spinner-border {
+            width: 4rem;
+            height: 4rem;
+            color: var(--primary-color);
+        }
+
+        .loading-spinner p {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .main-heading {
+            text-align: center;
+            color: #2E7D32;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem;
+            background: linear-gradient(to right, #E8F5E9, #C8E6C9, #E8F5E9);
             border-radius: 10px;
-            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .upload-container {
+                padding: 1.5rem;
+            }
+
+            .drop-zone {
+                padding: 2rem 1rem;
+            }
+
+            .main-heading {
+                font-size: 2rem;
+                margin: 1.5rem 0;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Custom animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .tip-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #F1F8E9;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
+        .tip-item:hover {
+            transform: translateX(5px);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-leaf me-2"></i>Crop Disease Detection
-            </a>
-        </div>
-    </nav>
+    <h1 class="main-heading">Coffee Leaf Disease Detection</h1>
 
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="container text-center">
-            <h1 class="display-4 mb-3">Detect Crop Diseases Instantly</h1>
+            <h1 class="display-4 mb-3">Detect Coffee Leaf Diseases Instantly</h1>
             <p class="lead">Upload an image of your crop and get instant disease detection results</p>
         </div>
     </div>
@@ -171,27 +340,51 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- Upload Section -->
-                <div class="upload-container">
+                <div class="upload-container fade-in-up">
                     <form id="upload-form" action="/predict" method="POST" enctype="multipart/form-data">
                         <div class="drop-zone" id="drop-zone">
-                            <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
-                            <h4>Drag and drop your image here</h4>
-                            <p>or</p>
-                            <label for="file-input" class="visually-hidden">Choose a file</label>
-                            <input type="file" name="file" id="file-input" accept="image/*" class="d-none" 
-                                   aria-label="Choose an image file" title="Choose an image file">
-                            <button type="button" class="btn btn-primary" onclick="document.getElementById('file-input').click()">
-                                Browse Files
+                            <i class="fas fa-seedling mb-3"></i>
+                            <h4>Upload Your Crop Image</h4>
+                            <p class="text-muted">Drag and drop your image here or click to browse</p>
+                            <input type="file" name="file" id="file-input" accept="image/*" class="d-none">
+                            <button type="button" class="btn btn-primary mt-3" onclick="document.getElementById('file-input').click()">
+                                <i class="fas fa-upload me-2"></i>Choose Image
                             </button>
                         </div>
                         
                         <div class="preview-container">
                             <img id="image-preview" class="img-fluid" alt="Preview of selected image">
-                            <button type="submit" class="btn btn-primary mt-3" id="submit-btn" style="display: none;">
-                                <i class="fas fa-search me-2"></i>Detect Disease
+                            <button type="submit" class="btn btn-primary mt-4" id="submit-btn" style="display: none;">
+                                <i class="fas fa-microscope me-2"></i>Analyze Crop
                             </button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Tips Section -->
+                <div class="tips-section">
+                    <h4 class="mb-4"><i class="fas fa-lightbulb me-2"></i>Tips for Better Results</h4>
+                    <div class="tip-item">
+                        <i class="fas fa-camera tip-icon"></i>
+                        <div>
+                            <h6 class="mb-1">Clear Photos</h6>
+                            <p class="mb-0 text-muted">Take clear, well-lit photos of the affected area</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-sun tip-icon"></i>
+                        <div>
+                            <h6 class="mb-1">Good Lighting</h6>
+                            <p class="mb-0 text-muted">Capture images in natural daylight for best results</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-crop tip-icon"></i>
+                        <div>
+                            <h6 class="mb-1">Focus on Symptoms</h6>
+                            <p class="mb-0 text-muted">Include both healthy and affected parts for comparison</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Loading Spinner -->
@@ -336,24 +529,27 @@
                         ${data.fertilizers && data.fertilizers.length > 0 ? `
                         <div class="mt-4">
                             <h4 class="mb-4">Recommended Fertilizers</h4>
-                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <div class="row">
                                 ${data.fertilizers.map(fertilizer => `
-                                    <div class="col">
-                                        <div class="card h-100 fertilizer-card">
-                                            <div class="card-body">
-                                                <h5 class="card-title text-primary">${fertilizer.name}</h5>
-                                                <div class="card-text">
-                                                    <div class="mt-3">
-                                                        <h6 class="text-secondary">
+                                    <div class="col-md-6">
+                                        <div class="fertilizer-card">
+                                            <img src="${getFertilizerImage(fertilizer.name)}" 
+                                                 class="fertilizer-image" 
+                                                 alt="${fertilizer.name}">
+                                            <div class="fertilizer-content">
+                                                <h5 class="card-title">${fertilizer.name}</h5>
+                                                <div class="fertilizer-info">
+                                                    <div class="mb-3">
+                                                        <h6 class="text-success">
                                                             <i class="fas fa-spray-can me-2"></i>Usage
                                                         </h6>
-                                                        <p class="small">${fertilizer.usage}</p>
+                                                        <p class="mb-0">${fertilizer.usage}</p>
                                                     </div>
-                                                    <div class="mt-3">
-                                                        <h6 class="text-secondary">
+                                                    <div>
+                                                        <h6 class="text-success">
                                                             <i class="fas fa-seedling me-2"></i>Benefits
                                                         </h6>
-                                                        <p class="small">${fertilizer.benefits}</p>
+                                                        <p class="mb-0">${fertilizer.benefits}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -368,6 +564,52 @@
                 
                 // Scroll to results
                 resultCard.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Helper function to get fertilizer images based on name
+            function getFertilizerImage(fertilizerName) {
+                const imageMap = {
+                    "Organic Compost": 'https://th.bing.com/th/id/R.3d35348a973e0192b8f9a8e6a6832aeb?rik=tSvbjL0lJVKLrA&riu=http%3a%2f%2fkrishisevakendra.in%2fcdn%2fshop%2ffiles%2f400gm_13.webp%3fv%3d1700635572&ehk=BaInhbPHmxCpZ088lYMMmC7AJWa47mw9A3OK2btWur4%3d&risl=&pid=ImgRaw&r=0',
+                    'Neem Oil Solution': 'https://i.pinimg.com/originals/7d/25/f1/7d25f1b9e1a353adf411e6abfc87411f.jpg',
+                    'Copper Fungicide': 'https://cdn11.bigcommerce.com/s-23mgkn7oua/images/stencil/1280x1280/products/3019/17206/2858389__42245.1681759978.jpg?c=2',
+                    'Bio Fertilizer': 'https://cdn1.byjus.com/wp-content/uploads/2018/11/biology/2017/05/27073155/Biofertilizers.png',
+                    "Balanced NPK (20-20-20)": 'https://thumbs.dreamstime.com/b/chemical-fertilizer-close-up-npk-fertilizer-plants-chemical-fertilizer-close-up-npk-fertilizer-plants-gardening-concept-189539166.jpg',
+                    "Micronutrient Mix":"https://5.imimg.com/data5/SELLER/Default/2023/6/318764804/SB/OC/SU/91317786/micronutrient-fertilizers-500x500.jpg",
+                    "Nitrogen-Rich Fertilizer (NPK 20-10-10)":"https://eos.com/wp-content/uploads/2024/04/nitrogen-fertilizers-main.png.webp",
+                    'Urea': 'https://th.bing.com/th/id/R.7c788090909dba023fbee97cd9e4ba88?rik=Hd9NXJnXiaEVHQ&riu=http%3a%2f%2frdrenergyco.com%2fwp-content%2fuploads%2f2019%2f07%2furea.jpg&ehk=%2f6f4ZAKaPj4jBQRG5EFHRu%2brqj8XbqbLK2fcCrpfHPE%3d&risl=&pid=ImgRaw&r=0',
+                    "Potassium-Rich Fertilizer (NPK 13-0-44)": 'https://cdn.mos.cms.futurecdn.net/ETv7EzcJDiugt6KN5vZfxE-1200-80.jpg',
+                    'Calcium Nitrate': 'https://images-na.ssl-images-amazon.com/images/I/81p2j4wDMUL._SL1500_.jpg',
+                    'Ammonium Sulphate': 'https://kisanlink.com/post_images/WhatsApp%20Image%202017-12-31%20at%2012.55.29_1515021453.jpeg',
+                    'Bone Meal': 'https://5.imimg.com/data5/SELLER/Default/2020/10/ZS/BI/FE/29697484/bonemeal-jpg-1000x1000.jpg',
+                    "Organic Fish Emulsion": 'https://i5.walmartimages.com/asr/1148cc3f-aef8-42cb-a8c9-86c77e7b5296_1.a877ca8a9b13a5ed35fb332f8e89df5d.jpeg',
+                    "Seaweed Extract": 'https://image.made-in-china.com/2f0j00KBZGWlszfiqV/Organic-Agriculture-Water-Soluble-Seaweed-Kelp-Extract-Bio-Foliar-Powder-Fertilizer.jpg',
+                    'Compost Tea': 'https://seedtocrop.net/wp-content/uploads/2020/01/compost_tea_dec_2013.jpg',
+                    'Vermicompost': 'https://images-na.ssl-images-amazon.com/images/I/71iPA5LfB7L._SL1500_.jpg',
+                    "Copper Sulfate":"https://th.bing.com/th/id/OIP.gv8Vnpfoa4M2Pbm4g8-hdwHaHa?rs=1&pid=ImgDetMain",
+                     "Sulfur-Based Fertilizer": "https://cdn.shopify.com/s/files/1/0722/2059/products/Liquid_Sulphur-min.png?v=1601732979",
+                     "Zinc Sulfate":"https://iffco-public-assets.s3.ap-south-1.amazonaws.com/s3fs-public/2022-02/Zinc%20Sulphate%20Monohydrate%20Front.png",
+                     "Silica Supplement":"https://www.katyayaniorganics.com/wp-content/uploads/2023/12/400-gm-34.png",
+                    'default': 'https://th.bing.com/th/id/R.dcdeee0c64aeee48bd0ea8f087602240?rik=yJMHtgUS1%2fL%2fbg&riu=http%3a%2f%2fwww.bipartisancafe.com%2fwp-content%2fuploads%2f2016%2f01%2f1-300x200.jpg&ehk=xnMydNnEuZU5QMDZX1XWMWt3YDRM4p3fLr8STSKD9Ec%3d&risl=&pid=ImgRaw&r=0'
+                };
+
+                // Fallback images in case the above URLs don't work
+                const fallbackImages = [
+                    'https://5.imimg.com/data5/SELLER/Default/2021/3/KO/QG/XG/3823480/neem-oil-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2023/3/291748700/JC/ZE/ZY/187751786/organic-fungicide-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2022/9/RW/CE/OE/184932/copper-oxychloride-50-wp-fungicide-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2023/7/322991068/XP/WG/JR/12271334/bio-organic-fertilizer-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2022/12/YE/YZ/ZT/158628098/npk-fertilizer-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2023/3/292274621/HN/JS/JK/13557341/liquid-calcium-nitrate-fertilizer-500x500.jpg',
+                    'https://5.imimg.com/data5/SELLER/Default/2023/7/323751100/QX/OY/YC/161590511/vermicompost-organic-fertilizer-500x500.jpg'
+                ];
+
+                // If the specific fertilizer image is not found, use a random fallback image
+                if (!imageMap[fertilizerName]) {
+                    const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+                    return fallbackImages[randomIndex];
+                }
+
+                return imageMap[fertilizerName];
             }
         });
     </script>
